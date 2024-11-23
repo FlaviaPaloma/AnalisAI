@@ -44,26 +44,58 @@
     /* Input e botão de envio */
     .chat-input {
       display: flex;
+      align-items: center;
+      background: linear-gradient(to right, #6f78bf, #50506c);
+      border-radius: 50px;
+      padding: 5px 10px;
       gap: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .chat-input input[type="text"] {
       flex: 1;
       padding: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
+      background-color: #393945;
+      color: white;
+    }
+
+    .chat-input input[type="text"]::placeholder {
+      color: #ccc;
     }
 
     .chat-input button {
-      padding: 10px 20px;
-      background-color: #6f78bf;
-      color: white;
+      padding: 10px;
+      background: transparent;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .chat-input button:hover {
+      color: #ccc;
+    }
+
+    #sendFileButton {
+      font-size: 20px;
+    }
+
+    #sendButton {
+      background-color: #6f78bf;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #sendButton:hover {
       background-color: #50506c;
     }
 
@@ -163,7 +195,7 @@
       <input id="chatInput" type="text" placeholder="Digite sua mensagem...">
       <input id="fileInput" type="file" style="display: none;">
       <button id="sendFileButton">📎</button>
-      <button id="sendButton">Enviar</button>
+      <button id="sendButton">➤</button>
     </div>
   </div>
 
@@ -218,7 +250,6 @@
         // Resposta automática após envio de arquivo
         setTimeout(() => {
           addMessage("Recebi o seu currículo! Estou analisando, aguarde um momento...", "coguri");
-          // Simular análise do currículo
           simulateAnalysis(fileLink);
         }, 1000);
       }
@@ -246,7 +277,6 @@
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Atualizar link do arquivo enviado pelo usuário para ir à análise
         fileLink.href = "analise.html";
         fileLink.target = "_blank";
         fileLink.onclick = null; // Permitir clique
@@ -280,21 +310,19 @@
       } else if (userMessage.toLowerCase().includes("tecnologia")) {
         setTimeout(() => {
           addMessage(
-            "Entendi! Envie o seu currículo para que eu possa analisar.",
+            "Que legal! Quais tecnologias você gostaria de usar no seu próximo trabalho?",
             "coguri"
           );
         }, 1000);
       } else {
         setTimeout(() => {
-          addMessage("Interessante! Pode me dar mais detalhes?", "coguri");
+          addMessage(
+            "Desculpe, não entendi muito bem. Pode explicar melhor?",
+            "coguri"
+          );
         }, 1000);
       }
     }
-
-    // Mensagem inicial do Coguri
-    window.onload = () => {
-      addMessage("Olá, meu nome é Coguri! Estou aqui para analisar o seu currículo. Por favor, envie o arquivo para começarmos!", "coguri");
-    };
   </script>
 </body>
 </html>

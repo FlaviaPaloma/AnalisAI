@@ -1,84 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- Define a codificação de caracteres para UTF-8, para garantir suporte a caracteres especiais -->
   <meta charset="UTF-8">
+  
+  <!-- Configura a viewport para tornar a página responsiva em dispositivos móveis -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Título da página que aparece na aba do navegador -->
   <title>Home - Coguri</title>
+
   <style>
+    /* Estilo do corpo da página */
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #343a40;
-      color: #B5B5B5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      margin: 0; /* Remove as margens padrão do navegador */
+      font-family: Arial, sans-serif; /* Define a fonte padrão da página */
+      background-color: rgba(80, 82, 90, 1); /* Cor de fundo escura, com opacidade total */
+      color: #fff; /* Cor do texto branco */
+      display: flex; /* Usa o modelo Flexbox para facilitar o alinhamento */
+      justify-content: center; /* Alinha os elementos horizontalmente ao centro */
+      align-items: center; /* Alinha os elementos verticalmente ao centro */
+      height: 100vh; /* Define que a altura será 100% da altura da janela de visualização */
+      padding: 0 20px; /* Adiciona um espaçamento de 20px nas laterais */
     }
 
+    /* Estilo do contêiner principal */
     .container {
-      text-align: center;
+      width: 100%; /* Define que o contêiner terá 100% de largura disponível */
+      max-width: 400px; /* Limita a largura máxima para 400px */
+      text-align: center; /* Centraliza o texto dentro do contêiner */
+      padding: 30px 25px; /* Adiciona 30px de padding nas laterais e 25px no topo e na base */
     }
 
-    .logo {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
+    /* Estilo da imagem do logo */
+    .logo-img {
+      width: 180px;  /* Largura do logo */
+      height: 170px; /* Altura do logo */
+      margin-bottom: 25px; /* Espaçamento abaixo da imagem */
     }
 
+    /* Estilo do título */
     .title {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 22px; /* Tamanho da fonte do título */
+      font-weight: bold; /* Define o título em negrito */
+      margin-bottom: 10px; /* Espaçamento abaixo do título */
     }
 
+    /* Estilo do subtítulo */
     .subtitle {
-      font-size: 18px;
-      margin-bottom: 30px;
+      font-size: 18px; /* Tamanho da fonte do subtítulo */
+      margin-bottom: 30px; /* Espaçamento abaixo do subtítulo */
     }
 
+    /* Estilo do botão de "Entrar" */
     .button {
-      background: linear-gradient(90deg, #FFDEE9, #FFDEE9);
-      border: none;
-      color: #000;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 12px 30px;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-bottom: 20px;
+      width: 50%; /* Largura do botão ocupando 50% do espaço disponível */
+      background: linear-gradient(45deg, #ff9a9e, #7fe076); /* Fundo do botão com gradiente */
+      color: #000; /* Cor do texto no botão */
+      font-weight: bold; /* Define o texto do botão em negrito */
+      padding: 12px; /* Define o espaçamento interno do botão */
+      border: none; /* Remove a borda do botão */
+      border-radius: 10px; /* Bordas arredondadas no botão */
+      margin: 20px 0; /* Espaçamento externo superior e inferior */
+      cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+      transition: background 0.3s, transform 0.2s; /* Transições suaves no fundo e no efeito de transformação */
     }
 
+    /* Estilo do link para criar conta */
     .link {
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      color: #B5B5B5;
+      font-size: 16px; /* Tamanho da fonte do link */
+      font-weight: bold; /* Texto do link em negrito */
+      cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+      text-decoration: none; /* Remove o sublinhado do link */
+      color: #B5B5B5; /* Cor do texto do link */
     }
   </style>
 </head>
 <body>
+  <!-- Contêiner principal que contém os elementos da página -->
   <div class="container">
+    <!-- Título de boas-vindas -->
     <h1 class="title">Olá</h1>
     <h1 class="title">Eu Sou o Coguri</h1>
 
-    <img src="logo.png" alt="Logo do Coguri" class="logo">
+    <!-- Imagem do logo -->
+    <img src="logo.png" alt="Logo do Coguri" class="logo-img"> <!-- A imagem do logo é exibida aqui -->
 
+    <!-- Subtítulo abaixo do logo -->
     <p class="subtitle">Como posso te ajudar?</p>
 
+    <!-- Botão de "Entrar", que irá redirecionar para a página de login -->
     <button class="button" id="loginButton">Entrar</button>
+
+    <!-- Link para criar uma conta, ainda não implementado -->
     <p class="link" id="createAccount">Crie uma conta</p>
   </div>
+
   <script>
-    // Navegar para a página de login
+    // Evento de clique no botão "Entrar" que redireciona para a página de login
     document.getElementById('loginButton').addEventListener('click', () => {
-      window.location.href = "login.html"; // Redireciona para login.html
+      window.location.href = "login.html"; // Redireciona para "login.html" quando o botão for clicado
     });
 
-    // Exibir mensagem de alerta para criar conta
+    // Evento de clique no link "Crie uma conta" que exibe uma mensagem de alerta
     document.getElementById('createAccount').addEventListener('click', () => {
-      alert('Criar conta ainda não implementado');
+      alert('Criar conta ainda não implementado'); // Exibe um alerta informando que a funcionalidade ainda não está implementada
     });
   </script>
 </body>
