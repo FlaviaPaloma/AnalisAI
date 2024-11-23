@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Coguri</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #343a40;
+      color: #B5B5B5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      background: linear-gradient(90deg, #FFDEE9, #FFDEE9);
+      border: none;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .link {
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      color: #B5B5B5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Olá</h1>
+    <h1 class="title">Eu Sou o Coguri</h1>
+
+    <img src="logo.png" alt="Logo do Coguri" class="logo">
+
+    <p class="subtitle">Como posso te ajudar?</p>
+
+    <button class="button" id="loginButton">Entrar</button>
+    <p class="link" id="createAccount">Crie uma conta</p>
+  </div>
+  <script>
+    // Navegar para a página de login
+    document.getElementById('loginButton').addEventListener('click', () => {
+      window.location.href = "login.html"; // Redireciona para login.html
+    });
+
+    // Exibir mensagem de alerta para criar conta
+    document.getElementById('createAccount').addEventListener('click', () => {
+      alert('Criar conta ainda não implementado');
+    });
+  </script>
+</body>
+</html>
