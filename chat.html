@@ -160,19 +160,17 @@
     }
 
     @media screen and (max-width: 480px) {
-      .chat-messages {
-        gap: 8px;
-      }
-
       .chat-input {
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Mantém os botões e input na mesma linha */
         gap: 5px;
+        padding: 5px;
       }
 
       .chat-input input[type="text"] {
-        width: 100%;
-        padding: 8px;
+        flex: 1;
+        min-width: 0;
         font-size: 14px;
+        padding: 8px;
       }
 
       .chat-input button {
@@ -205,13 +203,15 @@
   </div>
 
   <script>
-    // JavaScript mantido exatamente como enviado por você.
+    // JavaScript original, sem alterações
+
     const chatMessages = document.getElementById("chatMessages");
     const chatInput = document.getElementById("chatInput");
     const fileInput = document.getElementById("fileInput");
     const sendFileButton = document.getElementById("sendFileButton");
     const sendButton = document.getElementById("sendButton");
 
+    // Função para adicionar mensagens ao chat
     function addMessage(text, sender) {
       const messageElement = document.createElement("div");
       messageElement.classList.add("message", sender);
@@ -220,16 +220,18 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    // Função para envio de mensagens do usuário
     function sendMessage() {
       const messageText = chatInput.value.trim();
       if (messageText) {
         addMessage(messageText, "user");
         chatInput.value = "";
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        generateAutomaticResponse(messageText);
+        generateAutomaticResponse(messageText); // Resposta do Coguri
       }
     }
 
+    // Função para envio de arquivos (PDFs)
     fileInput.addEventListener("change", () => {
       const file = fileInput.files[0];
       if (file) {
@@ -237,12 +239,12 @@
         fileMessage.classList.add("message", "user", "file-message");
 
         const fileIcon = document.createElement("img");
-        fileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+        fileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png"; // Ícone de PDF
 
         const fileLink = document.createElement("a");
         fileLink.textContent = file.name;
-        fileLink.href = "#";
-        fileLink.onclick = (e) => e.preventDefault();
+        fileLink.href = "#"; // Temporário
+        fileLink.onclick = (e) => e.preventDefault(); // Desabilitar o clique inicialmente
 
         fileMessage.appendChild(fileIcon);
         fileMessage.appendChild(fileLink);
@@ -250,6 +252,7 @@
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
+        // Resposta automática após envio de arquivo
         setTimeout(() => {
           addMessage("Recebi o seu currículo! Estou analisando, aguarde um momento...", "coguri");
           simulateAnalysis(fileLink);
@@ -257,6 +260,7 @@
       }
     });
 
+    // Simulação de análise do currículo
     function simulateAnalysis(fileLink) {
       setTimeout(() => {
         addMessage("Análise completa! Aqui está o resultado:", "coguri");
@@ -284,34 +288,48 @@
       }, 2000);
     }
 
+    // Botão para abrir o seletor de arquivos
     sendFileButton.addEventListener("click", () => {
       fileInput.click();
     });
 
+    // Botão de envio de mensagem
     sendButton.addEventListener("click", sendMessage);
 
+    // Enviar mensagem ao pressionar Enter
     chatInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         sendMessage();
       }
     });
 
+    // Função para gerar respostas automáticas do "Coguri"
     function generateAutomaticResponse(userMessage) {
       if (userMessage.toLowerCase().includes("vaga")) {
         setTimeout(() => {
-          addMessage("Claro! Qual é o tipo de vaga que você está procurando?", "coguri");
+          addMessage(
+            "Claro! Qual é o tipo de vaga que você está procurando?",
+            "coguri"
+          );
         }, 1000);
       } else if (userMessage.toLowerCase().includes("tecnologia")) {
         setTimeout(() => {
-          addMessage("Entendi! Envie o seu currículo para que eu possa analisar.", "coguri");
+          addMessage(
+            "Entendi! Envie o seu currículo para que eu possa analisar.",
+            "coguri"
+          );
         }, 1000);
       } else {
         setTimeout(() => {
-          addMessage("Desculpe, não entendi muito bem. Pode explicar melhor?", "coguri");
+          addMessage(
+            "Desculpe, não entendi muito bem. Pode explicar melhor?",
+            "coguri"
+          );
         }, 1000);
       }
     }
 
+    // Mensagem inicial do Coguri
     window.onload = () => {
       addMessage("Olá, meu nome é Coguri! Estou aqui para analisar o seu currículo. Por favor, envie o arquivo para começarmos!", "coguri");
     };
