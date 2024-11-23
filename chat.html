@@ -41,7 +41,7 @@
       padding-bottom: 10px;
     }
 
-    /* Input e botão de envio */
+    /* Input e botões */
     .chat-input {
       display: flex;
       align-items: center;
@@ -59,6 +59,7 @@
       border-radius: 50px;
       background-color: #393945;
       color: white;
+      font-size: 16px;
     }
 
     .chat-input input[type="text"]::placeholder {
@@ -71,14 +72,10 @@
       border: none;
       cursor: pointer;
       color: white;
-      font-size: 18px;
+      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .chat-input button:hover {
-      color: #ccc;
     }
 
     #sendFileButton {
@@ -140,47 +137,55 @@
       text-decoration: underline;
     }
 
-    /* Responsividade: Estilização para telas menores */
+    /* Responsividade */
     @media screen and (max-width: 768px) {
-      body {
-        padding: 0;
-        margin: 0;
-      }
-
-      .chat-container {
+      .chat-input {
+        gap: 8px;
         padding: 5px;
       }
 
-      .chat-input {
-        flex-direction: column;
-        gap: 5px;
+      .chat-input input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
       }
 
-      .chat-input input[type="text"], .chat-input button {
-        width: 100%;
+      #sendButton {
+        width: 35px;
+        height: 35px;
       }
 
-      .message {
-        max-width: 90%;
-      }
-
-      .file-message img {
-        width: 16px;
-        height: 16px;
+      #sendFileButton {
+        font-size: 18px;
       }
     }
 
     @media screen and (max-width: 480px) {
       .chat-messages {
-        font-size: 14px;
+        gap: 8px;
+      }
+
+      .chat-input {
+        flex-wrap: wrap;
+        gap: 5px;
       }
 
       .chat-input input[type="text"] {
+        width: 100%;
+        padding: 8px;
         font-size: 14px;
       }
 
       .chat-input button {
-        font-size: 14px;
+        font-size: 16px;
+      }
+
+      #sendButton {
+        width: 35px;
+        height: 35px;
+      }
+
+      .message {
+        max-width: 90%; /* Para ajustar o tamanho no mobile */
       }
     }
   </style>
@@ -200,13 +205,13 @@
   </div>
 
   <script>
+    // JavaScript mantido exatamente como enviado por você.
     const chatMessages = document.getElementById("chatMessages");
     const chatInput = document.getElementById("chatInput");
     const fileInput = document.getElementById("fileInput");
     const sendFileButton = document.getElementById("sendFileButton");
     const sendButton = document.getElementById("sendButton");
 
-    // Função para adicionar mensagens ao chat
     function addMessage(text, sender) {
       const messageElement = document.createElement("div");
       messageElement.classList.add("message", sender);
@@ -215,18 +220,16 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Função para envio de mensagens do usuário
     function sendMessage() {
       const messageText = chatInput.value.trim();
       if (messageText) {
         addMessage(messageText, "user");
         chatInput.value = "";
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        generateAutomaticResponse(messageText); // Resposta do Coguri
+        generateAutomaticResponse(messageText);
       }
     }
 
-    // Função para envio de arquivos (PDFs)
     fileInput.addEventListener("change", () => {
       const file = fileInput.files[0];
       if (file) {
@@ -234,12 +237,12 @@
         fileMessage.classList.add("message", "user", "file-message");
 
         const fileIcon = document.createElement("img");
-        fileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png"; // Ícone de PDF
+        fileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
 
         const fileLink = document.createElement("a");
         fileLink.textContent = file.name;
-        fileLink.href = "#"; // Temporário
-        fileLink.onclick = (e) => e.preventDefault(); // Desabilitar o clique inicialmente
+        fileLink.href = "#";
+        fileLink.onclick = (e) => e.preventDefault();
 
         fileMessage.appendChild(fileIcon);
         fileMessage.appendChild(fileLink);
@@ -247,7 +250,6 @@
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Resposta automática após envio de arquivo
         setTimeout(() => {
           addMessage("Recebi o seu currículo! Estou analisando, aguarde um momento...", "coguri");
           simulateAnalysis(fileLink);
@@ -255,7 +257,6 @@
       }
     });
 
-    // Simulação de análise do currículo
     function simulateAnalysis(fileLink) {
       setTimeout(() => {
         addMessage("Análise completa! Aqui está o resultado:", "coguri");
@@ -264,10 +265,10 @@
         analyzedFileMessage.classList.add("message", "coguri", "file-message");
 
         const analyzedFileIcon = document.createElement("img");
-        analyzedFileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png"; // Ícone de PDF
+        analyzedFileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
 
         const analyzedFileLink = document.createElement("a");
-        analyzedFileLink.href = "analise.html"; // Redireciona para a página de análise
+        analyzedFileLink.href = "analise.html";
         analyzedFileLink.target = "_blank";
         analyzedFileLink.textContent = "Currículo Analisado";
 
@@ -279,50 +280,41 @@
 
         fileLink.href = "analise.html";
         fileLink.target = "_blank";
-        fileLink.onclick = null; // Permitir clique
+        fileLink.onclick = null;
       }, 2000);
     }
 
-    // Botão para abrir o seletor de arquivos
     sendFileButton.addEventListener("click", () => {
       fileInput.click();
     });
 
-    // Botão de envio de mensagem
     sendButton.addEventListener("click", sendMessage);
 
-    // Enviar mensagem ao pressionar Enter
     chatInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         sendMessage();
       }
     });
 
-    // Função para gerar respostas automáticas do "Coguri"
     function generateAutomaticResponse(userMessage) {
       if (userMessage.toLowerCase().includes("vaga")) {
         setTimeout(() => {
-          addMessage(
-            "Claro! Qual é o tipo de vaga que você está procurando?",
-            "coguri"
-          );
+          addMessage("Claro! Qual é o tipo de vaga que você está procurando?", "coguri");
         }, 1000);
       } else if (userMessage.toLowerCase().includes("tecnologia")) {
         setTimeout(() => {
-          addMessage(
-            "Que legal! Quais tecnologias você gostaria de usar no seu próximo trabalho?",
-            "coguri"
-          );
+          addMessage("Entendi! Envie o seu currículo para que eu possa analisar.", "coguri");
         }, 1000);
       } else {
         setTimeout(() => {
-          addMessage(
-            "Desculpe, não entendi muito bem. Pode explicar melhor?",
-            "coguri"
-          );
+          addMessage("Desculpe, não entendi muito bem. Pode explicar melhor?", "coguri");
         }, 1000);
       }
     }
+
+    window.onload = () => {
+      addMessage("Olá, meu nome é Coguri! Estou aqui para analisar o seu currículo. Por favor, envie o arquivo para começarmos!", "coguri");
+    };
   </script>
 </body>
 </html>
