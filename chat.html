@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat com Coguri</title>
+  <title>Chat com AnalisAI</title>
   <style>
     /* Reset Básico */
     * {
@@ -203,15 +203,14 @@
   </div>
 
   <script>
-    // JavaScript original, sem alterações
-
+    const API_BASE_URL = "http://127.0.0.1:5000"; // Base da API
     const chatMessages = document.getElementById("chatMessages");
     const chatInput = document.getElementById("chatInput");
     const fileInput = document.getElementById("fileInput");
     const sendFileButton = document.getElementById("sendFileButton");
     const sendButton = document.getElementById("sendButton");
 
-    // Função para adicionar mensagens ao chat
+    // Adiciona uma mensagem ao chat
     function addMessage(text, sender) {
       const messageElement = document.createElement("div");
       messageElement.classList.add("message", sender);
@@ -220,119 +219,94 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Função para envio de mensagens do usuário
-    function sendMessage() {
+    // Envia mensagens de texto para a API
+    async function sendMessage() {
       const messageText = chatInput.value.trim();
       if (messageText) {
         addMessage(messageText, "user");
         chatInput.value = "";
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        generateAutomaticResponse(messageText); // Resposta do Coguri
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: messageText }),
+          });
+
+          const data = await response.json();
+          if (data.response) {
+            addMessage(data.response, "AnalisAI");
+          } else if (data.error) {
+            addMessage(`Erro: ${data.error}`, "AnalisAI");
+          }
+        } catch (error) {
+          addMessage("Erro ao conectar ao servidor!", "AnalisAI");
+        }
       }
     }
 
-    // Função para envio de arquivos (PDFs)
-    fileInput.addEventListener("change", () => {
+    // Envia arquivos para a API
+    fileInput.addEventListener("change", async () => {
       const file = fileInput.files[0];
       if (file) {
-        const fileMessage = document.createElement("div");
-        fileMessage.classList.add("message", "user", "file-message");
+        addMessage(`Arquivo enviado: ${file.name}`, "user");
 
-        const fileIcon = document.createElement("img");
-        fileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png"; // Ícone de PDF
+        const formData = new FormData();
+        formData.append("file", file);
 
-        const fileLink = document.createElement("a");
-        fileLink.textContent = file.name;
-        fileLink.href = "#"; // Temporário
-        fileLink.onclick = (e) => e.preventDefault(); // Desabilitar o clique inicialmente
+        try {
+          const response = await fetch(`${API_BASE_URL}/upload`, {
+            method: "POST",
+            body: formData,
+          });
 
-        fileMessage.appendChild(fileIcon);
-        fileMessage.appendChild(fileLink);
-        chatMessages.appendChild(fileMessage);
+          const data = await response.json();
+          if (data.analysis) {
+            addMessage("Currículo analisado com sucesso! Clique aqui para ver o resultado.", "AnalisAI");
 
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        // Resposta automática após envio de arquivo
-        setTimeout(() => {
-          addMessage("Recebi o seu currículo! Estou analisando, aguarde um momento...", "coguri");
-          simulateAnalysis(fileLink);
-        }, 1000);
+            const link = document.createElement("a");
+            link.href = "analise.html";
+            link.textContent = "Ver Análise";
+            link.style.color = "white";
+            link.style.textDecoration = "underline";
+            chatMessages.appendChild(link);
+          } else if (data.error) {
+            addMessage(`Erro: ${data.error}`, "AnalisAI");
+          }
+        } catch (error) {
+          addMessage("Erro ao enviar o arquivo para análise!", "AnalisAI");
+        }
       }
     });
 
-    // Simulação de análise do currículo
-    function simulateAnalysis(fileLink) {
-      setTimeout(() => {
-        addMessage("Análise completa! Aqui está o resultado:", "coguri");
+    // Botão de envio de arquivos
+    sendFileButton.addEventListener("click", () => fileInput.click());
 
-        const analyzedFileMessage = document.createElement("div");
-        analyzedFileMessage.classList.add("message", "coguri", "file-message");
-
-        const analyzedFileIcon = document.createElement("img");
-        analyzedFileIcon.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
-
-        const analyzedFileLink = document.createElement("a");
-        analyzedFileLink.href = "analise.html";
-        analyzedFileLink.target = "_blank";
-        analyzedFileLink.textContent = "Currículo Analisado";
-
-        analyzedFileMessage.appendChild(analyzedFileIcon);
-        analyzedFileMessage.appendChild(analyzedFileLink);
-        chatMessages.appendChild(analyzedFileMessage);
-
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        fileLink.href = "analise.html";
-        fileLink.target = "_blank";
-        fileLink.onclick = null;
-      }, 2000);
-    }
-
-    // Botão para abrir o seletor de arquivos
-    sendFileButton.addEventListener("click", () => {
-      fileInput.click();
-    });
-
-    // Botão de envio de mensagem
+    // Botão de envio de mensagens
     sendButton.addEventListener("click", sendMessage);
 
-    // Enviar mensagem ao pressionar Enter
+    // Envia mensagem ao pressionar Enter
     chatInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         sendMessage();
       }
     });
 
-    // Função para gerar respostas automáticas do "Coguri"
-    function generateAutomaticResponse(userMessage) {
-      if (userMessage.toLowerCase().includes("vaga")) {
-        setTimeout(() => {
-          addMessage(
-            "Claro! Qual é o tipo de vaga que você está procurando?",
-            "coguri"
-          );
-        }, 1000);
-      } else if (userMessage.toLowerCase().includes("tecnologia")) {
-        setTimeout(() => {
-          addMessage(
-            "Entendi! Envie o seu currículo para que eu possa analisar.",
-            "coguri"
-          );
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          addMessage(
-            "Desculpe, não entendi muito bem. Pode explicar melhor?",
-            "coguri"
-          );
-        }, 1000);
+    // Mensagem inicial da API (FAQ)
+    window.onload = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/faq`);
+        const data = await response.json();
+        if (data.initial_message) {
+          addMessage(data.initial_message, "AnalisAI");
+        } else {
+          addMessage("Olá! Envie uma mensagem ou arquivo para começar.", "AnalisAI");
+        }
+      } catch (error) {
+        addMessage("Erro ao carregar a mensagem inicial!", "AnalisAI");
       }
-    }
-
-    // Mensagem inicial do Coguri
-    window.onload = () => {
-      addMessage("Olá, meu nome é Coguri! Estou aqui para analisar o seu currículo. Por favor, envie o arquivo para começarmos!", "coguri");
     };
   </script>
 </body>
+</html>
 </html>
