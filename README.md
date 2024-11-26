@@ -1,4 +1,3 @@
-AnalisAI
 AnalisAI é uma aplicação web para análise de currículos, oferecendo funcionalidades de login, chat interativo com IA, envio de arquivos para análise e exibição de resultados detalhados. O objetivo é auxiliar candidatos a vagas de emprego a melhorar seus currículos, identificando pontos fortes e fracos de acordo com os requisitos da vaga.
 
 🖼️ Funcionalidades do Projeto
